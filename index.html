@@ -31,8 +31,14 @@
 
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:20px;padding-bottom:72px}
   .card{display:flex;flex-direction:column;gap:14px;padding:clamp(28px,4vw,40px);border-radius:28px;background:var(--bg);min-height:340px;
-    transition:transform .25s ease,box-shadow .25s ease}
-  .card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -24px var(--c)}
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;-webkit-tap-highlight-color:transparent}
+  @media (hover:hover){ /* hover only on devices that really have it, so taps don't leave cards stuck */
+    .card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -24px var(--c)}
+    .card:hover .open svg{transform:translate(2px,-2px)}
+  }
+  /* feedback the moment a finger goes down, which hover can't give on phones */
+  .card:active{transform:translateY(-1px) scale(.985);transition-duration:.1s}
+  .card:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:28px}
   .card.wide{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;min-height:280px}
   .card.wide .body{flex:1 1 380px;display:flex;flex-direction:column;gap:14px}
   .tag{font-size:14px;font-weight:600;color:var(--c);text-transform:uppercase;letter-spacing:.1em}
@@ -42,7 +48,6 @@
   .card.wide p{font-size:18px}
   .open{margin-top:auto;display:inline-flex;align-items:center;gap:10px;font-weight:600;color:var(--c)}
   .open svg{transition:transform .25s}
-  .card:hover .open svg{transform:translate(2px,-2px)}
   .open.solid{margin-top:0;padding:14px 22px;border-radius:999px;background:var(--c);color:#fff}
 
   .nkuku{--bg:#E7F3EA;--c:#1E6B3A;--t:#2C3A30}
@@ -51,7 +56,10 @@
 
   footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:28px 0 40px;border-top:1px solid var(--line);font-size:14px;color:#5A6270}
   footer a:hover{color:var(--accent)}
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+  @media (prefers-reduced-motion:reduce){ /* no movement; colour and shadow changes stay */
+    html{scroll-behavior:auto}
+    .card:hover,.card:active,.card:hover .open svg{transform:none}
+  }
 </style>
 </head>
 <body>
