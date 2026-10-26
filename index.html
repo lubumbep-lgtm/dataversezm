@@ -54,6 +54,20 @@
   .zogulitsa{--bg:#E9EEFB;--c:#1F47B8;--t:#2C3348}
   .antchito{--bg:#F1ECFA;--c:#5B34A8;--t:#352C48}
 
+  .service{display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:center;margin-bottom:72px;
+    padding:clamp(28px,4vw,48px);border-radius:28px;background:var(--ink);color:#fff}
+  .service .body{flex:1 1 420px;display:flex;flex-direction:column;gap:14px}
+  .service .tag{color:#9DB4F5}
+  .service h2{font-size:clamp(34px,4.5vw,52px);font-weight:700}
+  .service p{font-size:18px;color:#C9CFDA;max-width:560px}
+  .service ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .service li{padding:6px 14px;border-radius:999px;border:1px solid #39404D;font-size:14px;color:#E4E7EC}
+  .quote{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;background:#fff;color:var(--ink);font-weight:600;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1);-webkit-tap-highlight-color:transparent}
+  @media (hover:hover){.quote:hover{transform:translateY(-2px)}}
+  .quote:active{transform:scale(.97);transition-duration:.1s}
+  .quote:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
+  @media (prefers-reduced-motion:reduce){.quote:hover,.quote:active{transform:none}}
   footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:28px 0 40px;border-top:1px solid var(--line);font-size:14px;color:#5A6270}
   footer a:hover{color:var(--accent)}
   @media (prefers-reduced-motion:reduce){ /* no movement; colour and shadow changes stay */
@@ -105,6 +119,16 @@
       <span class="open">Open Antchito <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></span>
     </a>
   </main>
+
+  <section id="websites" class="service">
+    <div class="body">
+      <span class="tag">Services</span>
+      <h2 class="display">We build websites too.</h2>
+      <p>Need a site for your business, school or project? We design and build fast, mobile-friendly websites and get them online for you.</p>
+      <ul><li>Business websites</li><li>Landing pages</li><li>Web apps</li><li>Hosting &amp; setup</li></ul>
+    </div>
+    <a class="quote" href="mailto:dataversezm@gmail.com?subject=Website%20enquiry">Get a quote <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
+  </section>
 
   <footer>
     <span>© <span id="yr">2026</span> DataVerseZM</span>
