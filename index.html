@@ -68,6 +68,24 @@
   .quote:active{transform:scale(.97);transition-duration:.1s}
   .quote:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
   @media (prefers-reduced-motion:reduce){.quote:hover,.quote:active{transform:none}}
+  .work{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;
+    padding:20px;border-radius:20px;background:#1A1F29;border:1px solid #2B3240;-webkit-tap-highlight-color:transparent;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s}
+  @media (hover:hover){.work:hover{transform:translateY(-3px);border-color:#9DB4F5}}
+  .work:active{transform:scale(.99);transition-duration:.1s}
+  .work:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:20px}
+  .work .label{font-size:13px;font-weight:600;color:#9DB4F5;text-transform:uppercase;letter-spacing:.1em}
+  .work h3{font-size:26px;font-weight:700;margin-top:4px}
+  .work .info{flex:1 1 260px}
+  .work .info p{font-size:15px;color:#AEB6C4;margin-top:4px}
+  .browser{flex:0 1 340px;border-radius:12px;overflow:hidden;background:#fff;color:var(--ink)}
+  .browser .bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#E9ECF1}
+  .browser .bar i{width:9px;height:9px;border-radius:50%;background:#C3C9D3}
+  .browser .bar span{margin-left:8px;flex:1;padding:4px 10px;border-radius:6px;background:#fff;font-size:12px;color:#4B5361}
+  .browser .page{padding:22px 18px;display:flex;flex-direction:column;gap:8px}
+  .browser .page b{font-size:22px;font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em}
+  .browser .page em{font-style:normal;font-size:13px;font-weight:600;color:var(--accent)}
+  @media (prefers-reduced-motion:reduce){.work:hover,.work:active{transform:none}}
   footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:28px 0 40px;border-top:1px solid var(--line);font-size:14px;color:#5A6270}
   footer a:hover{color:var(--accent)}
   @media (prefers-reduced-motion:reduce){ /* no movement; colour and shadow changes stay */
@@ -128,6 +146,19 @@
       <ul><li>Business websites</li><li>Landing pages</li><li>Web apps</li><li>Hosting &amp; setup</li></ul>
     </div>
     <a class="quote" href="mailto:dataversezm@gmail.com?subject=Website%20enquiry">Get a quote <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
+
+    <a class="work" href="https://toivoevents.com" target="_blank" rel="noopener">
+      <div class="info">
+        <span class="label">Recent work</span>
+        <h3>Toivo Events</h3>
+        <p>A website we designed and built for Toivo Events.</p>
+        <span class="open" style="--c:#fff;margin-top:12px">View live site <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></span>
+      </div>
+      <div class="browser" aria-hidden="true">
+        <div class="bar"><i></i><i></i><i></i><span>toivoevents.com</span></div>
+        <div class="page"><em>Live site</em><b>Toivo Events</b></div>
+      </div>
+    </a>
   </section>
 
   <footer>
