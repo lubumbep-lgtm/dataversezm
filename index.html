@@ -68,6 +68,12 @@
   .quote:active{transform:scale(.97);transition-duration:.1s}
   .quote:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
   @media (prefers-reduced-motion:reduce){.quote:hover,.quote:active{transform:none}}
+  .service.light{background:#EEF2FC;color:var(--ink);margin-bottom:20px}
+  .service.light .tag{color:var(--accent)}
+  .service.light p{color:#3A4252}
+  .service.light li{border-color:#C3CEEA;color:var(--ink);background:#fff}
+  .service.light .quote{background:var(--ink);color:#fff}
+  .service.light .quote:focus-visible{outline-color:var(--ink)}
   .work{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;
     padding:20px;border-radius:20px;background:#1A1F29;border:1px solid #2B3240;-webkit-tap-highlight-color:transparent;
     transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s}
@@ -138,9 +144,19 @@
     </a>
   </main>
 
-  <section id="websites" class="service">
+  <section id="consulting" class="service light">
     <div class="body">
       <span class="tag">Services</span>
+      <h2 class="display">Data science consultancy.</h2>
+      <p>We help organisations use their data to make better decisions, from setting a data strategy to building forecasting models and the reports your team uses every day.</p>
+      <ul><li>Data strategy &amp; advisory</li><li>Analytics &amp; reporting</li><li>Predictive modelling</li><li>Data collection &amp; management</li></ul>
+    </div>
+    <a class="quote" href="mailto:dataversezm@gmail.com?subject=Consultancy%20enquiry">Talk to us <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
+  </section>
+
+  <section id="websites" class="service">
+    <div class="body">
+      <span class="tag">Web development</span>
       <h2 class="display">We build websites too.</h2>
       <p>Need a site for your business, school or project? We design and build fast, mobile-friendly websites and get them online for you.</p>
       <ul><li>Business websites</li><li>Landing pages</li><li>Web apps</li><li>Hosting &amp; setup</li></ul>
