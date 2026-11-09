@@ -228,3 +228,18 @@
   .cta-strip{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;margin-top:40px;padding:28px 32px}
   .cta-strip b{font-size:22px;letter-spacing:-.02em}
   @media (max-width:760px){.svc-detail{grid-template-columns:1fr}}
+
+/* product detail rows */
+.pstack{display:flex;flex-direction:column;gap:28px}
+.pdetail.prod{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:32px;align-items:end;padding:44px 48px 0}
+.pdetail.flip .ptext{order:2}.pdetail.flip .pvis{order:1}
+.pdetail .ptext{padding-bottom:44px;align-self:center}
+.pdetail .ptag{margin:18px 0 10px;font-size:clamp(20px,2vw,26px);font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.pdetail .pdesc{color:var(--muted);font-size:16px;max-width:560px}
+.pdetail ul{list-style:none;margin:18px 0 26px;padding:0;display:grid;gap:9px}
+.pdetail li{display:flex;gap:10px;font-size:15px}
+.pdetail li::before{content:"";flex:none;width:7px;height:7px;margin-top:8px;border-radius:2px;background:var(--orange)}
+.pdetail .phone{width:min(240px,90%);height:300px;font-size:11px;margin-top:0}
+.pdetail .phone .tiles .pc b{font-size:15px}
+@media (hover:hover) and (pointer:fine){.pdetail.prod:hover{transform:none}}
+@media (max-width:820px){.pdetail.prod{grid-template-columns:1fr;padding:30px 22px 0;gap:8px}.pdetail.flip .ptext{order:0}.pdetail .ptext{padding-bottom:10px}}
