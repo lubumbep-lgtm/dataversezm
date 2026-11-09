@@ -65,8 +65,8 @@
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="mask-icon" href="/favicon.svg" color="#1F47B8">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B0E14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F8FD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#040A1C" media="(prefers-color-scheme: dark)">
 <script>
   (function(){ // set theme before paint to avoid a flash
     var t=null; try{t=localStorage.getItem('theme')}catch(e){}
@@ -76,268 +76,409 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0E1116;--muted:#4B5361;--line:#E4E7EC;--accent:#1F47B8}
+  :root{
+    --bg:#F6F8FD; --surface:#FFFFFF; --surface-2:rgba(255,255,255,.72); --ink:#0B1533; --muted:#4A5675; --line:#E2E8F3;
+    --blue:#1D5BFF; --blue-2:#5B8CFF; --orange:#FF6A13; --orange-ink:#E85A00; --green:#22A34A;
+    --shadow:0 18px 50px -24px rgba(23,48,120,.28); --glow:transparent;
+    --ease-out:cubic-bezier(0.23,1,0.32,1);
+    color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --bg:#040A1C; --surface:#0B1530; --surface-2:rgba(14,26,60,.62); --ink:#EEF2FF; --muted:#A9B4D0; --line:rgba(120,150,255,.18);
+    --blue:#4C82FF; --blue-2:#7FA6FF; --orange:#FF7A26; --orange-ink:#FF7A26; --green:#3CCB6C;
+    --shadow:0 20px 60px -30px rgba(0,0,0,.8); --glow:rgba(60,110,255,.25);
+    color-scheme:dark;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:"Instrument Sans",system-ui,sans-serif;background:#fff;color:var(--ink);line-height:1.55}
+  html,body{overflow-x:clip}
+  body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  a:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:12px}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
-  .display{font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.03em;line-height:1}
+  button{font:inherit}
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+  .accent{color:var(--orange)} .blue{color:var(--blue)}
+  .eyebrow{display:flex;align-items:center;gap:14px;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .eyebrow::before{content:"";width:30px;height:3px;border-radius:3px;background:var(--orange)}
+  h1,h2,h3{letter-spacing:-.035em;line-height:1.05;font-weight:800}
 
-  nav{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:24px 0}
-  .logo{display:flex;align-items:center}
-  .logo img{height:32px;width:auto;display:block}
-  .btn-dark{padding:12px 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:15px;transition:opacity .2s}
-  .btn-dark:hover{opacity:.85}
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:12px 24px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;
+    transition:transform .2s var(--ease-out),background-color .2s ease,box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
+  .btn-primary{background:linear-gradient(180deg,#FF7A26,#FF5E00);color:#fff;box-shadow:0 10px 24px -10px rgba(255,106,19,.7)}
+  .btn-ghost{border-color:var(--line);background:var(--surface-2);color:var(--ink)}
+  .btn-outline-ink{border-color:var(--ink);color:var(--ink);background:transparent}
+  @media (hover:hover) and (pointer:fine){.btn:hover{transform:translateY(-2px)}}
+  .btn:active{transform:scale(.97);transition-duration:.1s}
+  .arrow{width:16px;height:16px}
 
-  header{padding:clamp(48px,8vw,96px) 0 56px;max-width:820px}
-  .pill{display:inline-block;padding:6px 14px;border-radius:999px;background:#EEF2FC;color:var(--accent);font-size:14px;font-weight:600;margin-bottom:24px}
-  h1{font-size:clamp(42px,6.5vw,80px);font-weight:700;letter-spacing:-.04em;line-height:1.02}
-  header p{margin-top:20px;font-size:19px;color:var(--muted);max-width:680px}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-  .hero-cta a{min-height:48px;display:inline-flex;align-items:center;padding:12px 22px}
-  .btn-light{border-radius:999px;background:#EEF2FC;color:var(--accent);font-weight:600;font-size:15px;transition:opacity .2s}
-  .btn-light:hover{opacity:.85}
-  .what{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px;padding-bottom:64px}
-  .what div{padding:22px 24px;border:1px solid var(--line);border-radius:20px;display:flex;flex-direction:column;gap:6px}
-  .what b{font-size:17px}
-  .what span{color:var(--muted);font-size:15px}
-  .section-title{font-size:clamp(28px,3.5vw,40px);font-weight:700;margin-bottom:20px}
-
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:20px;padding-bottom:72px}
-  .card{display:flex;flex-direction:column;gap:14px;padding:clamp(28px,4vw,40px);border-radius:28px;background:var(--bg);min-height:340px;
-    transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;-webkit-tap-highlight-color:transparent}
-  @media (hover:hover){ /* hover only on devices that really have it, so taps don't leave cards stuck */
-    .card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -24px var(--c)}
-    .card:hover .open svg{transform:translate(2px,-2px)}
-  }
-  /* feedback the moment a finger goes down, which hover can't give on phones */
-  .card:active{transform:translateY(-1px) scale(.985);transition-duration:.1s}
-  .card:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:28px}
-  .card.wide{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;min-height:280px}
-  .card.wide .body{flex:1 1 380px;display:flex;flex-direction:column;gap:14px}
-  .tag{font-size:14px;font-weight:600;color:var(--c);text-transform:uppercase;letter-spacing:.1em}
-  .card h2{font-size:44px;font-weight:700}
-  .card.wide h2{font-size:clamp(40px,5vw,60px)}
-  .card p{font-size:17px;color:var(--t);max-width:520px}
-  .card.wide p{font-size:18px}
-  .open{margin-top:auto;display:inline-flex;align-items:center;gap:10px;font-weight:600;color:var(--c)}
-  .open svg{transition:transform .25s}
-  .open.solid{margin-top:0;padding:14px 22px;border-radius:999px;background:var(--c);color:#fff}
-
-  .nkuku{--bg:#E7F3EA;--c:#1E6B3A;--t:#2C3A30}
-  .zogulitsa{--bg:#E9EEFB;--c:#1F47B8;--t:#2C3348}
-  .antchito{--bg:#F1ECFA;--c:#5B34A8;--t:#352C48}
-
-  .service{display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:center;margin-bottom:72px;
-    padding:clamp(28px,4vw,48px);border-radius:28px;background:var(--ink);color:#fff}
-  .service .body{flex:1 1 420px;display:flex;flex-direction:column;gap:14px}
-  .service .tag{color:#9DB4F5}
-  .service h2{font-size:clamp(34px,4.5vw,52px);font-weight:700}
-  .service p{font-size:18px;color:#C9CFDA;max-width:560px}
-  .service ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-  .service li{padding:6px 14px;border-radius:999px;border:1px solid #39404D;font-size:14px;color:#E4E7EC}
-  .quote{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;background:#fff;color:var(--ink);font-weight:600;
-    transition:transform .25s cubic-bezier(.2,.8,.2,1);-webkit-tap-highlight-color:transparent}
-  @media (hover:hover){.quote:hover{transform:translateY(-2px)}}
-  .quote:active{transform:scale(.97);transition-duration:.1s}
-  .quote:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
-  @media (prefers-reduced-motion:reduce){.quote:hover,.quote:active{transform:none}}
-  .service.light{background:#EEF2FC;color:var(--ink);margin-bottom:20px}
-  .service.light .tag{color:var(--accent)}
-  .service.light p{color:#3A4252}
-  .service.light li{border-color:#C3CEEA;color:var(--ink);background:#fff}
-  .service.light .quote{background:var(--ink);color:#fff}
-  .service.light .quote:focus-visible{outline-color:var(--ink)}
-  .work{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;
-    padding:20px;border-radius:20px;background:#1A1F29;border:1px solid #2B3240;-webkit-tap-highlight-color:transparent;
-    transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s}
-  @media (hover:hover){.work:hover{transform:translateY(-3px);border-color:#9DB4F5}}
-  .work:active{transform:scale(.99);transition-duration:.1s}
-  .work:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:20px}
-  .work .label{font-size:13px;font-weight:600;color:#9DB4F5;text-transform:uppercase;letter-spacing:.1em}
-  .work h3{font-size:26px;font-weight:700;margin-top:4px}
-  .work .info{flex:1 1 260px}
-  .work .info p{font-size:15px;color:#AEB6C4;margin-top:4px}
-  .browser{flex:0 1 340px;border-radius:12px;overflow:hidden;background:#fff;color:var(--ink)}
-  .browser .bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#E9ECF1}
-  .browser .bar i{width:9px;height:9px;border-radius:50%;background:#C3C9D3}
-  .browser .bar span{margin-left:8px;flex:1;padding:4px 10px;border-radius:6px;background:#fff;font-size:12px;color:#4B5361}
-  .browser .page{padding:22px 18px;display:flex;flex-direction:column;gap:8px}
-  .browser .page b{font-size:22px;font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em}
-  .browser .page em{font-style:normal;font-size:13px;font-weight:600;color:var(--accent)}
-  @media (prefers-reduced-motion:reduce){.work:hover,.work:active{transform:none}}
-  .contact{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;margin-bottom:72px;
-    padding:clamp(28px,4vw,48px);border-radius:28px;border:1px solid var(--line)}
-  .contact .body{flex:1 1 320px}
-  .contact h2{font-size:clamp(30px,4vw,44px);font-weight:700;margin:6px 0 8px}
-  .contact p{color:var(--muted);font-size:17px}
-  .contact .tag{color:var(--accent)}
-  .actions{display:flex;flex-wrap:wrap;gap:12px}
-  .act{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;font-weight:600;min-height:48px;
-    transition:transform .25s cubic-bezier(.2,.8,.2,1);-webkit-tap-highlight-color:transparent}
-  .act.mail{background:var(--ink);color:#fff}
-  .act.wa{background:#1E6B3A;color:#fff}
-  .act.call{background:#EEF2FC;color:var(--accent)}
-  @media (hover:hover){.act:hover{transform:translateY(-2px)}}
-  .act:active{transform:scale(.97);transition-duration:.1s}
-  .act:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:999px}
-  @media (prefers-reduced-motion:reduce){.act:hover,.act:active{transform:none}}
-  footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:28px 0 40px;border-top:1px solid var(--line);font-size:14px;color:#5A6270}
-  footer a:hover{color:var(--accent)}
-  @media (prefers-reduced-motion:reduce){ /* no movement; colour and shadow changes stay */
-    html{scroll-behavior:auto}
-    .card:hover,.card:active,.card:hover .open svg{transform:none}
-  }
-
-  /* ---------- dark mode ---------- */
-  :root{color-scheme:light}
-  :root[data-theme="dark"]{color-scheme:dark;--ink:#E9EDF3;--muted:#A3ADBD;--line:#262C38;--accent:#8FA9F7}
-  [data-theme="dark"] body{background:#0B0E14}
-  [data-theme="dark"] .btn-dark,[data-theme="dark"] .act.mail{background:#E9EDF3;color:#0B0E14}
-  [data-theme="dark"] .pill,[data-theme="dark"] .btn-light,[data-theme="dark"] .act.call{background:#18213A;color:#9DB4F5}
-  [data-theme="dark"] .nkuku{--bg:#122219;--c:#6FCF97;--t:#C9DCCF}
-  [data-theme="dark"] .zogulitsa{--bg:#131B31;--c:#8FA9F7;--t:#C9D2E8}
-  [data-theme="dark"] .antchito{--bg:#1D1731;--c:#B79BF0;--t:#D6CCEA}
-  [data-theme="dark"] .service{background:#151A24;border:1px solid #262C38}
-  [data-theme="dark"] .service.light{background:#131B31;border-color:#22305A}
-  [data-theme="dark"] .service.light p{color:#C9D2E8}
-  [data-theme="dark"] .service.light li{background:#0B0E14;border-color:#2B3657;color:#E9EDF3}
-  [data-theme="dark"] .quote,[data-theme="dark"] .service.light .quote{background:#E9EDF3;color:#0B0E14}
-  [data-theme="dark"] .browser{color:#0E1116}
-  [data-theme="dark"] footer{color:#8A93A3}
-  [data-theme="dark"] .card > svg{stroke:var(--c)}
+  /* nav */
+  .nav{position:sticky;top:0;z-index:20;backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid transparent}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:16px}
+  .logo{display:flex;align-items:center;gap:18px}
+  .logo img{height:30px;width:auto;display:block}
+  .logo::after{content:"";width:1px;height:30px;background:var(--line)}
   .logo .dark-logo{display:none}
   [data-theme="dark"] .logo .light-logo{display:none}
   [data-theme="dark"] .logo .dark-logo{display:block}
+  .links{display:flex;gap:4px;font-size:15px;font-weight:500}
+  .links a{padding:8px 16px;border-radius:999px;transition:background-color .2s ease,color .2s ease}
+  .links a.active{background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)}
+  @media (hover:hover) and (pointer:fine){.links a:hover{background:color-mix(in srgb,var(--blue) 8%,transparent)}}
   .nav-right{display:flex;align-items:center;gap:10px}
-  .theme-toggle{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);
-    display:grid;place-items:center;cursor:pointer;transition:background-color .2s ease,border-color .2s ease;-webkit-tap-highlight-color:transparent}
-  @media (hover:hover) and (pointer:fine){.theme-toggle:hover{background:rgba(127,127,127,.12)}}
-  .theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-  .theme-toggle .moon{display:block}.theme-toggle .sun{display:none}
-  [data-theme="dark"] .theme-toggle .moon{display:none}
-  [data-theme="dark"] .theme-toggle .sun{display:block}
+  .theme-toggle{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+  .theme-toggle .sun{display:none} [data-theme="dark"] .theme-toggle .sun{display:block} [data-theme="dark"] .theme-toggle .moon{display:none}
+  @media (max-width:1020px){.links{display:none}}
+  @media (max-width:560px){.nav .btn-ghost{display:none}.nav .btn{padding:10px 16px}.logo::after{display:none}.logo img{height:24px}}
+  @media (max-width:400px){.nav .btn-primary .arrow{display:none}.nav .btn-primary{padding:10px 14px;font-size:14px}}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:clamp(40px,6vw,80px) 0 40px}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center}
+  .hero h1{font-size:clamp(40px,5.6vw,72px)}
+  .hero p.lead{margin-top:22px;font-size:clamp(17px,1.5vw,19px);color:var(--muted);max-width:560px}
+  .hero .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+  .hero-art{position:relative;min-height:420px}
+  .swoosh{position:absolute;inset:-40px -60px -20px -40px;pointer-events:none}
+  .glass{background:var(--surface-2);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow), 0 0 40px var(--glow);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .perf{position:relative;margin-left:auto;width:min(340px,100%);padding:22px 24px}
+  .perf h3{font-size:17px;letter-spacing:-.01em;font-weight:700;margin-bottom:12px}
+  .chart{display:grid;grid-template-columns:38px 1fr;gap:6px;height:130px}
+  .chart .y{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--muted);text-align:right;padding-bottom:2px}
+  .bars{display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line)}
+  .bars i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--blue-2),var(--blue));transform-origin:bottom;animation:grow .9s var(--ease-out) both}
+  .bars i:last-child{background:linear-gradient(180deg,#FF8A3D,var(--orange))}
+  @keyframes grow{from{transform:scaleY(.2);opacity:0}to{transform:none;opacity:1}}
+  .status{position:relative;margin:16px 0 0 auto;width:min(340px,100%);padding:10px 22px}
+  .status div{display:flex;align-items:center;gap:14px;padding:12px 0;font-weight:600;font-size:15px}
+  .status div+div{border-top:1px solid var(--line)}
+  .status svg{flex:none;color:var(--blue)}
+  .status span{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;
+    color:var(--green);background:color-mix(in srgb,var(--green) 14%,transparent)}
+
+  .services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:56px}
+  .svc{position:relative;overflow:hidden;padding:26px 24px 30px;min-height:190px}
+  .svc .ico{color:var(--blue);margin-bottom:14px}
+  .svc h3{font-size:22px;letter-spacing:-.02em;max-width:180px}
+  .svc p{margin-top:8px;color:var(--muted);font-size:15px;max-width:160px}
+  .svc .blob{position:absolute;right:-46px;bottom:-56px;width:130px;height:130px;border-radius:50%;opacity:.8;z-index:0}
+  .svc > *:not(.blob){position:relative;z-index:1}
+  .svc:nth-child(1) .blob{background:radial-gradient(circle at 30% 30%,#9DB9FF,#2F6BFF 60%,transparent 70%)}
+  .svc:nth-child(2) .blob{background:radial-gradient(circle at 30% 30%,#D7F7A8,#5BC83C 60%,transparent 70%)}
+  .svc:nth-child(3) .blob{background:radial-gradient(circle at 30% 30%,#CFE0FF,#7AA6FF 60%,transparent 70%)}
+  .svc:nth-child(4) .blob{background:radial-gradient(circle at 30% 30%,#E5D3FF,#9C6BFF 60%,transparent 70%)}
+  @media (max-width:980px){.hero-grid{grid-template-columns:1fr}.hero-art{min-height:0}.perf,.status{margin-left:0}.services{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:560px){.services{grid-template-columns:1fr}}
+
+  section{scroll-margin-top:90px}
+  .block{padding:clamp(56px,7vw,96px) 0 0}
+
+  /* about */
+  .about-top{display:grid;grid-template-columns:minmax(0,1.1fr) 1px minmax(0,.9fr);gap:48px;align-items:center}
+  .about-top h2{font-size:clamp(32px,3.8vw,46px);margin-top:18px}
+  .about-top .rule{align-self:stretch;background:var(--line)}
+  .about-top p{color:var(--muted);font-size:18px}
+  .link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--blue);font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:48px}
+  .stat{position:relative;overflow:hidden;padding:26px;min-height:230px}
+  .stat .tile{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--surface);box-shadow:0 6px 18px -8px rgba(23,48,120,.35);margin-bottom:18px}
+  .stat b{display:block;font-size:19px;letter-spacing:-.01em}
+  .stat .num{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin:6px 0}
+  .stat p{color:var(--muted);font-size:15px;max-width:200px}
+  .stat .wave{position:absolute;right:-40px;bottom:-78px;width:190px;height:110px;border-radius:50% 50% 0 0;opacity:.7;z-index:0}
+  .stat > *:not(.wave){position:relative;z-index:1}
+  .stat{padding-bottom:44px}
+  .stat:nth-child(1){background:linear-gradient(160deg,var(--surface-2),color-mix(in srgb,var(--blue) 10%,var(--surface-2)))}
+  .stat:nth-child(2){background:linear-gradient(160deg,var(--surface-2),color-mix(in srgb,var(--orange) 12%,var(--surface-2)))}
+  .stat:nth-child(3){background:linear-gradient(160deg,var(--surface-2),color-mix(in srgb,var(--blue) 12%,var(--surface-2)))}
+  .stat:nth-child(4){background:linear-gradient(160deg,var(--surface-2),color-mix(in srgb,#8B5CF6 12%,var(--surface-2)))}
+  .stat:nth-child(1) .wave,.stat:nth-child(3) .wave{background:linear-gradient(180deg,#8FB2FF,#2F6BFF)}
+  .stat:nth-child(2) .wave{background:linear-gradient(180deg,#FFC9A3,#FF8A3D)}
+  .stat:nth-child(4) .wave{background:linear-gradient(180deg,#D9C6FF,#9C6BFF)}
+  @media (max-width:980px){.about-top{grid-template-columns:1fr}.about-top .rule{display:none}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:520px){.stats{grid-template-columns:1fr}}
+
+  /* products */
+  .prod-grid{display:grid;grid-template-columns:minmax(0,.9fr) repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+  .prod-intro h2{font-size:clamp(30px,3.2vw,40px);margin:18px 0 18px}
+  .prod-intro p{color:var(--muted);font-size:16px;margin-bottom:28px}
+  .prod{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:24px 22px 0;border-radius:24px;border:1px solid var(--line);
+    transition:transform .25s var(--ease-out),box-shadow .25s ease;-webkit-tap-highlight-color:transparent}
+  @media (hover:hover) and (pointer:fine){.prod:hover{transform:translateY(-4px);box-shadow:var(--shadow)}}
+  .prod:active{transform:scale(.985);transition-duration:.1s}
+  .prod.antchito{background:linear-gradient(180deg,color-mix(in srgb,var(--blue) 9%,var(--surface)),var(--surface))}
+  .prod.zogulitsa{background:linear-gradient(180deg,color-mix(in srgb,var(--orange) 14%,var(--surface)),color-mix(in srgb,var(--orange) 5%,var(--surface)))}
+  .prod.nkuku{background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 92%,#7CD36A),color-mix(in srgb,#7CD36A 18%,var(--surface)))}
+  .prod .head{display:flex;align-items:center;gap:12px}
+  .prod .head b{display:block;font-size:24px;letter-spacing:-.03em;font-weight:800;line-height:1.1}
+  .prod .head small{font-size:12px;font-weight:600;color:var(--muted)}
+  .prod .tagline{margin:16px 0 14px;font-size:16px;font-weight:500;min-height:72px}
+  .prod .more{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+  .phone{margin:22px auto 0;width:min(170px,82%);height:220px;border:5px solid #0B1533;border-bottom:0;border-radius:26px 26px 0 0;background:#fff;overflow:hidden;color:#0B1533;font-size:9px;position:relative}
+  [data-theme="dark"] .phone{border-color:#2A3866}
+  .phone .sb{display:flex;justify-content:space-between;padding:8px 12px 4px;font-weight:700;font-size:9px}
+  .phone .notch{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:46px;height:12px;border-radius:999px;background:#0B1533}
+  .phone .scr{padding:6px 10px}
+  .pc{border-radius:10px;padding:8px;margin-bottom:6px}
+  .navy{background:#16306E;color:#fff}
+  .navy em{font-style:normal;display:block;font-size:13px;font-weight:800;margin-top:2px}
+  .minibars{display:flex;align-items:flex-end;gap:3px;height:60px;margin-top:6px}
+  .minibars i{flex:1;background:#3E6BE8;border-radius:2px}
+  .minibars i:nth-child(odd){background:#A9C0FF}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .tiles .pc{background:#fff;border:1px solid #EEF0F6;margin:0}
+  .tiles .pc.dk{background:#0E1E4A;color:#fff}
+  .tiles .pc b{display:block;font-size:12px;margin-top:3px}
+  .tiles .pc .o{color:#FF6A13}
+  .gauge{display:grid;place-items:center;margin-top:8px}
+  .gauge .ring{width:84px;height:84px;border-radius:50%;background:conic-gradient(#3DB54A 0 55%,#E6ECE6 55% 100%);display:grid;place-items:center}
+  .gauge .ring div{width:66px;height:66px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;line-height:1.1}
+  .gauge b{font-size:20px} .gauge small{font-size:8px;color:#5A6270}
+  @media (max-width:1080px){.prod-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.prod-intro{grid-column:1/-1}}
+  @media (max-width:760px){.prod-grid{grid-template-columns:1fr}}
+
+  /* web solutions */
+  .web{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:40px;align-items:center;padding:clamp(28px,4vw,56px)}
+  .web h2{font-size:clamp(32px,3.6vw,46px);margin:18px 0 18px}
+  .web p{color:var(--muted);font-size:17px;margin-bottom:28px;max-width:400px}
+  .device{position:relative;padding-bottom:30px}
+  .laptop{border-radius:14px 14px 0 0;border:8px solid #11182B;border-bottom-width:12px;background:#0C0A18;aspect-ratio:16/10;overflow:hidden;position:relative}
+  .laptop-base{height:12px;margin:0 -6%;border-radius:0 0 14px 14px;background:linear-gradient(180deg,#C9CFDA,#9AA3B3)}
+  .site{position:absolute;inset:0;padding:6% 7%;color:#fff;
+    background:radial-gradient(ellipse at 70% 60%,rgba(255,196,120,.45),transparent 45%),radial-gradient(ellipse at 85% 30%,rgba(130,80,255,.55),transparent 50%),linear-gradient(120deg,#120A26 30%,#2A1550 70%,#0E0820)}
+  .site .bar{display:flex;justify-content:space-between;align-items:center;font-size:clamp(7px,.8vw,10px);opacity:.9}
+  .site .brand{font-weight:800;letter-spacing:.12em}
+  .site h4{font-family:Georgia,serif;font-weight:400;font-size:clamp(16px,2.4vw,30px);line-height:1.08;margin-top:10%}
+  .site h4 span{color:#F2B25C;font-weight:700}
+  .site .book{display:inline-block;margin-top:6%;padding:5px 12px;border-radius:999px;background:#C99644;color:#1A1208;font-size:clamp(7px,.8vw,10px);font-weight:700}
+  .mobile{position:absolute;right:-2%;bottom:0;width:24%;aspect-ratio:9/18;border:5px solid #11182B;border-radius:22px;overflow:hidden;background:#120A26}
+  .mobile .site{padding:18% 10%}
+  .mobile .site h4{font-size:clamp(11px,1.3vw,16px);margin-top:30%}
+  .badge{position:absolute;left:30%;bottom:6px;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);font-weight:700;font-size:15px}
+  .badge small{font-weight:500;color:var(--muted)}
+  @media (max-width:900px){.web{grid-template-columns:1fr}.badge{left:8%}}
+
+  /* contact */
+  .contact{position:relative;overflow:hidden;margin:clamp(56px,7vw,96px) 0 40px;padding:clamp(28px,4vw,52px);border-radius:28px;color:#fff;
+    background:radial-gradient(ellipse at 90% 120%,rgba(90,150,255,.65),transparent 55%),linear-gradient(110deg,#0A1A4D 0%,#0F2E8A 55%,#1D5BFF 100%);
+    display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);gap:40px;align-items:center}
+  .contact h2{font-size:clamp(32px,3.6vw,46px)}
+  .contact h2 span{color:#FF8A3D}
+  .contact p{margin-top:16px;color:#D6E0FF;font-size:17px;max-width:420px}
+  .contact .rule{align-self:stretch;background:rgba(255,255,255,.2)}
+  .contact .quick{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .contact .quick a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.35);font-weight:600;font-size:14px;min-height:44px}
+  form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .field{position:relative}
+  .field svg{position:absolute;left:16px;top:15px;color:#5A6488}
+  .field input,.field textarea{width:100%;border:0;border-radius:999px;padding:14px 18px 14px 46px;font:inherit;font-size:15px;color:#0B1533;background:#fff}
+  .field textarea{border-radius:22px;min-height:96px;resize:vertical}
+  .field.full{grid-column:1/-1}
+  form .btn{justify-self:start}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media (max-width:900px){.contact{grid-template-columns:1fr}.contact .rule{display:none}}
+  @media (max-width:520px){form{grid-template-columns:1fr}}
+
+  footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:24px 0 40px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+  @media (hover:hover) and (pointer:fine){footer a:hover{color:var(--blue)}}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .bars i{animation:none}
+    .btn:hover,.btn:active,.prod:hover,.prod:active{transform:none}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav>
-    <a class="logo" href="#" aria-label="DataVerseZM home"><img class="light-logo" src="/logo/dataversezm-logo-tight.svg" alt="DataVerseZM" width="191" height="32"><img class="dark-logo" src="/logo/dataversezm-logo-white-tight.svg" alt="DataVerseZM" width="191" height="32"></a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="DataVerseZM home"><img class="light-logo" src="/logo/dataversezm-logo-tight.svg" alt="DataVerseZM" width="179" height="30"><img class="dark-logo" src="/logo/dataversezm-logo-white-tight.svg" alt="DataVerseZM" width="179" height="30"></a>
+    <nav class="links" aria-label="Main">
+      <a class="active" href="#top">Home</a><a href="#services">Services</a><a href="#products">Products</a><a href="#about">About Us</a><a href="#work">Case Studies</a>
+    </nav>
     <div class="nav-right">
       <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
-        <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
-      <a class="btn-dark" href="#contact">Contact us</a>
+      <a class="btn btn-ghost" href="#contact">Contact Us</a>
+      <a class="btn btn-primary" href="#contact">Get a Quote <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
     </div>
-  </nav>
+  </div>
+</header>
 
-  <header>
-    <span class="pill">Built in Zambia</span>
-    <h1 class="display">Turning data into better decisions.</h1>
-    <p>DataVerseZM is a Zambian data science consultancy and software company. We help businesses, farmers and organisations understand their data, plan ahead and work smarter, through expert consultancy and our own easy-to-use apps.</p>
-    <div class="hero-cta">
-      <a class="btn-dark" href="#consulting">Work with us</a>
-      <a class="btn-light" href="#products">Explore our products</a>
-    </div>
-  </header>
-
-  <section class="what" aria-label="What we do">
-    <div><b>Data science consultancy</b><span>Data strategy, analytics and reporting, predictive modelling and data management.</span></div>
-    <div><b>Software products</b><span>Nkuku, Zogulitsa and Antchito: apps for farming, business analytics and staff management.</span></div>
-    <div><b>Web development</b><span>Fast, mobile-friendly websites and web apps for businesses.</span></div>
-  </section>
-
-  <h2 id="products-title" class="display section-title">Our products</h2>
-
-  <main id="products" class="grid">
-    <a class="card zogulitsa" href="https://zogulitsa.work" target="_blank" rel="noopener">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#1F47B8" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 36h28"/><path d="M13 30V20M21 30V12M29 30V24"/><path d="M10 16l9-7 8 6 9-7"/></svg>
-      <span class="tag">Business analytics</span>
-      <h2 class="display">Zogulitsa</h2>
-      <p>See your numbers clearly and plan for growth: predictions, stock taking, barcodes and data storage.</p>
-      <span class="open">Open Zogulitsa <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></span>
-    </a>
-
-    <a class="card antchito" href="https://app.antchito-dataversezm.com" target="_blank" rel="noopener">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#5B34A8" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="16" cy="15" r="5"/><circle cx="30" cy="17" r="4"/><path d="M6 35c0-6 5-10 10-10s10 4 10 10M26 35c0-4 2-8 6-8 4 0 6 3 6 8"/></svg>
-      <span class="tag">Workforce</span>
-      <h2 class="display">Antchito</h2>
-      <p>Keep track of your people: staff management, admin controls, user lock-out and secure access.</p>
-      <span class="open">Open Antchito <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></span>
-    </a>
-
-    <a class="card nkuku" href="https://nkuku-app-dataverse.vercel.app" target="_blank" rel="noopener">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#1E6B3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 30c0-8 6-14 13-14 3 0 5-3 5-6 3 1 5 4 5 7 0 9-6 17-15 17-4 0-8-1-8-4z"/><path d="M18 34l-2 6M24 34l1 6"/><circle cx="28" cy="13" r="1"/></svg>
-      <span class="tag">Agriculture</span>
-      <h2 class="display">Nkuku</h2>
-      <p>Flock-health tracking for poultry farmers. Spot problems early and keep your birds productive.</p>
-      <span class="open">Open Nkuku <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></span>
-    </a>
-  </main>
-
-  <section id="consulting" class="service light">
-    <div class="body">
-      <span class="tag">Services</span>
-      <h2 class="display">Data science consultancy.</h2>
-      <p>We help organisations use their data to make better decisions, from setting a data strategy to building forecasting models and the reports your team uses every day.</p>
-      <ul><li>Data strategy &amp; advisory</li><li>Analytics &amp; reporting</li><li>Predictive modelling</li><li>Data collection &amp; management</li></ul>
-    </div>
-    <a class="quote" href="mailto:dataversezm@gmail.com?subject=Consultancy%20enquiry">Talk to us <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
-  </section>
-
-  <section id="websites" class="service">
-    <div class="body">
-      <span class="tag">Web development</span>
-      <h2 class="display">We build websites too.</h2>
-      <p>Need a site for your business, school or project? We design and build fast, mobile-friendly websites and get them online for you.</p>
-      <ul><li>Business websites</li><li>Landing pages</li><li>Web apps</li><li>Hosting &amp; setup</li></ul>
-    </div>
-    <a class="quote" href="mailto:dataversezm@gmail.com?subject=Website%20enquiry">Get a quote <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></a>
-
-    <a class="work" href="https://toivoevents.com" target="_blank" rel="noopener">
-      <div class="info">
-        <span class="label">Recent work</span>
-        <h3>Toivo Events</h3>
-        <p>A website we designed and built for Toivo Events.</p>
-        <span class="open" style="--c:#fff;margin-top:12px">View live site <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg></span>
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <h1>Turning data into smarter <span class="accent">business decisions.</span></h1>
+          <p class="lead">We are a Zambian technology and data solutions company delivering software, data analytics and digital solutions that help businesses work smarter, operate efficiently and grow.</p>
+          <div class="cta">
+            <a class="btn btn-primary" href="#services">Explore Solutions <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+            <a class="btn btn-ghost" href="#about">About DataVerseZM</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <svg class="swoosh" viewBox="0 0 600 460" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="sw1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1D5BFF" stop-opacity="0"/><stop offset=".55" stop-color="#3D7BFF" stop-opacity=".55"/><stop offset="1" stop-color="#9CC0FF" stop-opacity=".9"/></linearGradient>
+              <linearGradient id="sw2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1D5BFF" stop-opacity="0"/><stop offset="1" stop-color="#1D5BFF" stop-opacity=".45"/></linearGradient>
+            </defs>
+            <path d="M40 470 C 120 200, 300 40, 460 30 C 380 120, 300 260, 260 470 Z" fill="url(#sw1)"/>
+            <path d="M150 470 C 220 280, 360 140, 520 110 C 440 200, 380 320, 360 470 Z" fill="url(#sw2)"/>
+            <path d="M250 470 C 320 340, 430 240, 590 220 C 520 290, 470 380, 460 470 Z" fill="url(#sw1)" opacity=".7"/>
+          </svg>
+          <div class="perf glass">
+            <h3>Business Performance</h3>
+            <div class="chart">
+              <div class="y"><span>3,000</span><span>2,000</span><span>1,000</span><span>0</span></div>
+              <div class="bars" aria-hidden="true">
+                <i style="height:18%;animation-delay:.05s"></i><i style="height:34%;animation-delay:.1s"></i><i style="height:46%;animation-delay:.15s"></i><i style="height:60%;animation-delay:.2s"></i><i style="height:46%;animation-delay:.25s"></i><i style="height:68%;animation-delay:.3s"></i><i style="height:88%;animation-delay:.35s"></i>
+              </div>
+            </div>
+          </div>
+          <div class="status glass">
+            <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>Operations<span>✓ Running</span></div>
+            <div><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="13" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="18" rx="1"/></svg>Data Insights<span>✓ Up to date</span></div>
+            <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>Systems<span>✓ Optimised</span></div>
+          </div>
+        </div>
       </div>
-      <div class="browser" aria-hidden="true">
-        <div class="bar"><i></i><i></i><i></i><span>toivoevents.com</span></div>
-        <div class="page"><em>Live site</em><b>Toivo Events</b></div>
+
+      <div class="services" id="services">
+        <div class="svc glass"><div class="ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><h3>Data Strategy</h3><p>Turn your data into a clear plan for growth.</p><span class="blob" aria-hidden="true"></span></div>
+        <div class="svc glass"><div class="ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="13" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="18" rx="1"/></svg></div><h3>Data Analytics</h3><p>Unlock insights that drive growth.</p><span class="blob" aria-hidden="true"></span></div>
+        <div class="svc glass"><div class="ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg></div><h3>Software Solutions</h3><p>Build, automate and scale your operations.</p><span class="blob" aria-hidden="true"></span></div>
+        <div class="svc glass"><div class="ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M10.8 7.2L6.2 15.8M13.2 7.2l4.6 8.6M7.5 18h9"/></svg></div><h3>Automation &amp; Digital Solutions</h3><p>Simplify processes and improve efficiency.</p><span class="blob" aria-hidden="true"></span></div>
       </div>
-    </a>
-  </section>
-
-  <section id="contact" class="contact">
-    <div class="body">
-      <span class="tag">Contact</span>
-      <h2 class="display">Let&rsquo;s talk.</h2>
-      <p>Questions about our products or a project in mind? Reach us the way that suits you.</p>
-    </div>
-    <div class="actions">
-      <a class="act mail" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=dataversezm@gmail.com&amp;su=Enquiry%20from%20website" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email us</a>
-      <a class="act wa" href="https://wa.me/260970388501?text=Hello%20DataVerseZM%2C%20I%27d%20like%20to%20find%20out%20more%20about%20" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.2A8.5 8.5 0 1 1 20 11.5z"/><path d="M9 9.5c.3 2 1.6 3.6 3.6 4.4l1.2-1.1 2 .8v1.6c-3.8.4-7.6-3-7.9-6.9H9.5L10.3 10z"/></svg>WhatsApp</a>
-      <a class="act call" href="tel:+260970388501">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Call +260 970 388 501</a>
-      <a class="act call" href="tel:+260961528507">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Call +260 961 528 507</a>
     </div>
   </section>
 
-  <footer>
-    <span>© <span id="yr">2026</span> DataVerse Analytics Zambia Limited · Reg. No. 120261057704</span>
-    <span>Get in touch: <a href="mailto:dataversezm@gmail.com">dataversezm@gmail.com</a></span>
-  </footer>
-</div>
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="about-top">
+        <div>
+          <span class="eyebrow">About us</span>
+          <h2>A trusted technology partner focused on building <span class="blue">smarter</span> and more <span class="accent">adaptive</span> businesses.</h2>
+        </div>
+        <span class="rule" aria-hidden="true"></span>
+        <div>
+          <p>We combine deep industry expertise with modern technology and data analytics to help businesses move faster, operate smarter, and grow with confidence.</p>
+          <a class="link" href="#contact">Talk to our team <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat glass"><div class="tile" style="color:var(--blue)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><b>Solutions</b><div class="num">3</div><p>Business solutions built for real operational impact.</p><span class="wave" aria-hidden="true"></span></div>
+        <div class="stat glass"><div class="tile" style="color:var(--orange)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 20v-5M12 20V9M18 20V4"/></svg></div><b>Client satisfaction</b><div class="num">98%</div><p>Average satisfaction across all solutions.</p><span class="wave" aria-hidden="true"></span></div>
+        <div class="stat glass"><div class="tile" style="color:var(--blue)"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><circle cx="5.5" cy="10" r="2.4"/><circle cx="18.5" cy="10" r="2.4"/><path d="M6 20c0-3.5 2.7-6 6-6s6 2.5 6 6zM1 19c0-2.6 1.8-4.5 4.4-4.5 1 0 1.9.3 2.6.8C6.7 16.3 6 17.7 6 19.3zM23 19c0-2.6-1.8-4.5-4.4-4.5-1 0-1.9.3-2.6.8 1.3 1 2 2.4 2 4z"/></svg></div><b>Companies on board</b><div class="num">20+</div><p>Businesses currently using our solutions.</p><span class="wave" aria-hidden="true"></span></div>
+        <div class="stat glass"><div class="tile" style="color:#8B5CF6"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="8.5" cy="14" r=".8" fill="currentColor"/><circle cx="12" cy="14" r=".8" fill="currentColor"/><circle cx="15.5" cy="14" r=".8" fill="currentColor"/></svg></div><b>Years of experience</b><div class="num">2+</div><p>Building technology solutions in Zambia.</p><span class="wave" aria-hidden="true"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="products">
+    <div class="wrap">
+      <div class="prod-grid">
+        <div class="prod-intro">
+          <span class="eyebrow">Our products</span>
+          <h2>Powerful solutions built for real <span class="accent">business needs.</span></h2>
+          <p>Our in-house products help businesses manage people, stock and farm operations with ease, insights and control.</p>
+          <a class="btn btn-primary" href="#products-list">Explore Our Products <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+        </div>
+
+        <a class="prod antchito" id="products-list" href="https://app.antchito-dataversezm.com" target="_blank" rel="noopener">
+          <div class="head">
+            <svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true"><defs><linearGradient id="ag" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FA0FF"/><stop offset="1" stop-color="#1D45D8"/></linearGradient></defs><path d="M22 6h10l16 42H38l-3.5-10h-15L16 48H6z" fill="url(#ag)"/><path d="M22.5 30h9L27 16z" fill="#fff" opacity=".9"/></svg>
+            <div><b>Antchito<span class="blue">.</span></b><small>by Dataverse</small></div>
+          </div>
+          <p class="tagline">HR and payroll management made simple.</p>
+          <span class="more">Learn more <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+          <div class="phone" aria-hidden="true"><span class="notch"></span><div class="sb"><span>12:13</span><span>●●●</span></div>
+            <div class="scr"><div class="pc navy">Statutory deductions<em>K149,742.20</em></div><b style="font-size:9px">Payroll by month</b>
+              <div class="minibars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:35%"></i><i style="height:50%"></i><i style="height:40%"></i><i style="height:60%"></i><i style="height:45%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:70%"></i><i style="height:100%"></i></div></div></div>
+        </a>
+
+        <a class="prod zogulitsa" href="https://zogulitsa.work" target="_blank" rel="noopener">
+          <div class="head">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#FF6A13" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+            <div><b>Zogulitsa</b><small>Powered by DataVerse<span class="accent">ZM</span></small></div>
+          </div>
+          <p class="tagline">Sales. Stock.<br>Under control.</p>
+          <span class="more">Learn more <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+          <div class="phone" aria-hidden="true"><span class="notch"></span><div class="sb"><span>12:14</span><span>●●●</span></div>
+            <div class="scr"><div class="tiles"><div class="pc dk">Sales today<b>K0.00</b></div><div class="pc">Items sold today<b>0</b></div><div class="pc">Stock value<b class="o">K270,501</b></div><div class="pc">Low stock items<b class="o">5</b></div></div></div></div>
+        </a>
+
+        <a class="prod nkuku" href="https://nkuku-app-dataverse.vercel.app" target="_blank" rel="noopener">
+          <div class="head">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#FF6A13" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15c0-4 3-7 7-7 1.5 0 2.5-1.5 2.5-3 1.7.6 2.8 2.2 2.8 4 0 5-3.5 9-8.3 9C6.8 18 5 17 5 15z"/><path d="M9.5 18l-1 3M12.5 18l.5 3M14.6 4.2c.6-.9 1.6-1.4 2.6-1.2"/><circle cx="15.3" cy="7.3" r=".6" fill="#FF6A13"/></svg>
+            <div><b>Nkuku<span class="accent">.</span></b><small>by Dataverse</small></div>
+          </div>
+          <p class="tagline">Poultry intelligence for healthier and more productive flocks.</p>
+          <span class="more">Learn more <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+          <div class="phone" aria-hidden="true"><span class="notch"></span><div class="sb"><span>12:13</span><span>●●●</span></div>
+            <div class="scr"><div class="pc" style="background:#F2F5F2"><b style="font-size:10px">Flock Health Score</b><div style="color:#7A847A;font-size:8px">by Dataverse</div>
+              <div class="gauge"><div class="ring"><div><span><b>55</b><br><small>Needs care</small></span></div></div></div></div></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="web glass">
+        <div>
+          <span class="eyebrow">Website solutions</span>
+          <h2>Modern websites that grow your <span class="accent">business.</span></h2>
+          <p>We design and build clean, responsive and high-performing websites for businesses, brands and events.</p>
+          <a class="btn btn-outline-ink" href="#contact">Build Your Website <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+        </div>
+        <a class="device" href="https://toivoevents.com" target="_blank" rel="noopener" aria-label="View the Toivo Events website">
+          <div class="laptop"><div class="site"><div class="bar"><span class="brand">TOIVO EVENTS</span><span>Home · Events · Gallery · About · Contact</span></div>
+            <h4>Creating<br>Memorable<br><span>Experiences</span></h4><span class="book">Book an Event →</span></div></div>
+          <div class="laptop-base"></div>
+          <div class="mobile"><div class="site"><div class="bar"><span class="brand">TOIVO</span></div><h4>Creating Memorable <span>Experiences</span></h4></div></div>
+          <span class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Toivo Events <small>(View site)</small></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="contact">
+    <div class="contact">
+      <div>
+        <h2>Have a project in mind?<br><span>Let’s talk.</span></h2>
+        <p>Tell us what you need and we’ll get back to you with the right solution for your business.</p>
+        <div class="quick">
+          <a href="https://wa.me/260970388501?text=Hello%20DataVerseZM%2C%20I%27d%20like%20to%20find%20out%20more%20about%20" target="_blank" rel="noopener">WhatsApp +260 970 388 501</a>
+          <a href="tel:+260970388501">Call us</a>
+        </div>
+      </div>
+      <span class="rule" aria-hidden="true"></span>
+      <form id="enquiry">
+        <div class="field"><label class="sr" for="f-name">Full name</label><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><input id="f-name" name="name" placeholder="Full name" autocomplete="name" required></div>
+        <div class="field"><label class="sr" for="f-email">Email address</label><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><input id="f-email" name="email" type="email" placeholder="Email address" autocomplete="email" required></div>
+        <div class="field full"><label class="sr" for="f-msg">Your message</label><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg><textarea id="f-msg" name="message" placeholder="Your message" required></textarea></div>
+        <button class="btn btn-primary" type="submit">Send Message <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></button>
+      </form>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <footer>
+      <span>© <span id="yr">2026</span> DataVerse Analytics Zambia Limited · Reg. No. 120261057704</span>
+      <span>Get in touch: <a href="mailto:dataversezm@gmail.com">dataversezm@gmail.com</a></span>
+    </footer>
+  </div>
+</main>
+
 <script>
-document.getElementById("yr").textContent=new Date().getFullYear();
+document.getElementById('yr').textContent=new Date().getFullYear();
 (function(){
   var root=document.documentElement, btn=document.querySelector('.theme-toggle');
   function label(){btn.setAttribute('aria-label', root.getAttribute('data-theme')==='dark'?'Switch to light mode':'Switch to dark mode')}
@@ -347,13 +488,29 @@ document.getElementById("yr").textContent=new Date().getFullYear();
     root.setAttribute('data-theme',t); label();
     try{localStorage.setItem('theme',t)}catch(e){}
   });
-  // follow the system setting until the visitor picks one
   var mq=matchMedia('(prefers-color-scheme: dark)');
   mq.addEventListener&&mq.addEventListener('change',function(e){
-    var saved=null; try{saved=localStorage.getItem('theme')}catch(err){}
-    if(saved!=='light'&&saved!=='dark'){root.setAttribute('data-theme',e.matches?'dark':'light'); label();}
+    var s=null; try{s=localStorage.getItem('theme')}catch(err){}
+    if(s!=='light'&&s!=='dark'){root.setAttribute('data-theme',e.matches?'dark':'light'); label();}
   });
 })();
+// highlight the nav link for the section in view
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.links a'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting&&map[e.target.id]){links.forEach(function(a){a.classList.remove('active')});map[e.target.id].classList.add('active')}
+  })},{rootMargin:'-45% 0px -50% 0px'});
+  ['top','services','products','about','work'].forEach(function(id){var el=document.getElementById(id); if(el) io.observe(el)});
+})();
+// contact form: opens a ready-to-send Gmail message (no server needed)
+document.getElementById('enquiry').addEventListener('submit',function(e){
+  e.preventDefault();
+  var f=e.target, name=f.name.value.trim(), email=f.email.value.trim(), msg=f.message.value.trim();
+  var body='Name: '+name+'\nEmail: '+email+'\n\n'+msg;
+  var url='https://mail.google.com/mail/?view=cm&fs=1&to=dataversezm@gmail.com&su='+encodeURIComponent('Website enquiry from '+name)+'&body='+encodeURIComponent(body);
+  window.open(url,'_blank','noopener');
+});
 </script>
 </body>
 </html>
