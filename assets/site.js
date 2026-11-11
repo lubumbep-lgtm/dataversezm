@@ -22,3 +22,4 @@ var enq=document.getElementById('enquiry'); if(enq) enq.addEventListener('submit
   var url='https://mail.google.com/mail/?view=cm&fs=1&to=dataversezm@gmail.com&su='+encodeURIComponent('Website enquiry from '+name)+'&body='+encodeURIComponent(body);
   window.open(url,'_blank','noopener');
 });
+

@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/case-studies",
+      "destination": "/services/#work",
+      "permanent": true
+    },
+    {
+      "source": "/case-studies/",
+      "destination": "/services/#work",
+      "permanent": true
+    }
+  ]
+}
